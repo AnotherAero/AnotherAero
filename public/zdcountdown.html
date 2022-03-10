@@ -50,9 +50,9 @@
       var maxDays = 270;
       var perc = ((270-days)/maxDays) * 100;
       var percent = perc + "%";
-      perc = Math.round(perc);
       document.getElementById("inB").style.width = perc + "%";
       
+      perc = Math.round(perc);
       document.getElementById("demo").innerHTML = days + "d " + hours + "h "
       + minutes + "m " + seconds + "s ";
 

@@ -28,7 +28,10 @@
     <p id="demo"></p>
     <div class="outB">
       <div id ="inB" class="inB">
-        Hallo
+        <center>
+          <p id="pd">
+          </p>
+        </center>
       </div>
     </div>
   	
@@ -48,7 +51,9 @@
       var perc = ((270-days)/maxDays) * 100;
       var percent = perc + "%";
       document.getElementById("inB").style.width = percent;
-
+      
+      document.getElementById("pd").innerHTML = percent;
+      
       document.getElementById("demo").innerHTML = days + "d " + hours + "h "
       + minutes + "m " + seconds + "s ";
 

@@ -32,7 +32,7 @@
 	var pause = false;
 	function change(ID){
 		if (pause) {
-			document.getElementById("paused").innerHTML = "Please press new";
+			alert("Please press new");
 			return;
 		}
 		if(document.getElementById(ID).innerHTML != "X" && document.getElementById(ID).innerHTML != "O"){

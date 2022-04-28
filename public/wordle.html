@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Low Budget Wordle</title>
+  </head>
+  <body>
+    <div class="" align="center">
+      <h1>Low Budget Wordle</h1>
+      <h5>A letter only appears once in the word</h5>
+      <table>
+        <tr>
+          <td id="1"></td>
+          <td id="2"></td>
+          <td id="3"></td>
+          <td id="4"></td>
+          <td id="5"></td>
+        </tr>
+        <tr>
+          <td id="6"></td>
+          <td id="7"></td>
+          <td id="8"></td>
+          <td id="9"></td>
+          <td id="10"></td>
+        </tr>
+        <tr>
+          <td id="11"></td>
+          <td id="12"></td>
+          <td id="13"></td>
+          <td id="14"></td>
+          <td id="15"></td>
+        </tr>
+        <tr>
+          <td id="16"></td>
+          <td id="17"></td>
+          <td id="18"></td>
+          <td id="19"></td>
+          <td id="20"></td>
+        </tr>
+        <tr>
+          <td id="21"></td>
+          <td id="22"></td>
+          <td id="23"></td>
+          <td id="24"></td>
+          <td id="25"></td>
+        </tr>
+      </table>
+      <br>
+      <input id="inp" type="text" name="" value="">
+      <button id="btn" type="button" name="button" onclick="getWord()">Enter</button>
+    </div>
+
+
+    <script type="text/javascript">
+      //var id = 1;
+      //document.getElementById(id).style.backgroundColor="red";
+      var solution = "TABLE";
+      var currentID = 1;
+      var winCondition = 0;
+
+      function getWord() {
+        var input = document.getElementById("inp").value.toUpperCase();
+        if (input.length != 5) { //Check if word is the right length
+          alert("Word does not have a length of 5");
+          return;
+        }
+        compareWord(input);
+        console.log(input);
+      }
+      function compareWord(toCompare){
+        //Checks the word and colors the table elements
+        for (var i = 0; i < 5; i++) {
+          if (toCompare.charAt(i) == solution.charAt(i)) {
+              document.getElementById(currentID).style.backgroundColor = "green";
+              document.getElementById(currentID).innerHTML = toCompare.charAt(i);
+              winCondition++;
+              currentID++;
+          }else if (solution.search(toCompare.charAt(i)) != -1) {
+            document.getElementById(currentID).style.backgroundColor = "orange";
+            document.getElementById(currentID).innerHTML = toCompare.charAt(i);
+            currentID++;
+          }else {
+            //document.getElementById(currentID).style.backgroundColor = "red";
+            document.getElementById(currentID).innerHTML = toCompare.charAt(i);
+            currentID++;
+          }
+        }
+        //Check winning condition
+        if (winCondition == 5) {
+          document.getElementById("inp").value = "You Won!";
+          document.getElementById("btn").disabled = true;
+        }else if (currentID == 25) {
+          document.getElementById("inp").value = "You Lost!";
+          document.getElementById("btn").disabled = true;
+        }else{
+          winCondition = 0;
+        }
+      }
+
+    </script>
+  </body>
+  <style media="screen">
+    td{
+      text-align:center;
+      table-layout:fixed;
+      width:80px;
+      height:80px;
+      color:white;
+      border:2px white solid;
+      font-size:80px;
+    }
+    h1{
+      color:white;
+    }
+    h5{
+      color:white;
+    }
+    body{
+      background:black;
+    }
+  </style>
+</html>

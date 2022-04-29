@@ -7,7 +7,7 @@
   <body>
     <div class="" align="center">
       <h1>Low Budget Wordle</h1>
-      <h5>A letter only appears once in the word</h5>
+      <h5 id="notif">A letter only appears once in the word</h5>
       <table>
         <tr>
           <td id="1"></td>
@@ -44,6 +44,13 @@
           <td id="24"></td>
           <td id="25"></td>
         </tr>
+        <tr>
+          <td id="26"></td>
+          <td id="27"></td>
+          <td id="28"></td>
+          <td id="29"></td>
+          <td id="30"></td>
+        </tr>
       </table>
       <br>
       <input id="inp" type="text" name="" value="">
@@ -54,21 +61,37 @@
     <script type="text/javascript">
       //var id = 1;
       //document.getElementById(id).style.backgroundColor="red";
-      var solution = "TABLE";
+      var solution = "COAST"; //MUST BE UPPERCASE!!!!
+      var validWord = true;
       var currentID = 1;
       var winCondition = 0;
 
-      function getWord() {
+      async function getWord() {
+        //Word is changed to all upper case
         var input = document.getElementById("inp").value.toUpperCase();
+
         if (input.length != 5) { //Check if word is the right length
-          alert("Word does not have a length of 5");
+          notif.style.color ="red";
+          notif.innerHTML = "Word does not have a length of 5";
           return;
         }
-        compareWord(input);
-        console.log(input);
+        await checkWord(input) //Check if word is valid and awaits till the check is done using await
+        //checks the validWord variable and
+        if (validWord) {
+          notif.style.color ="white";
+          notif.innerHTML = "-";
+          compareWord(input);
+          console.log(input);
+        }else {
+          notif.style.color ="red";
+          notif.innerHTML = "Word does not exist";
+        }
       }
       function compareWord(toCompare){
-        //Checks the word and colors the table elements
+        //console.log(currentID);
+        //compares the entered word with the solution
+        //and colors the tiltes accordingly
+        //currentID is used to determin which tile is currently used
         for (var i = 0; i < 5; i++) {
           if (toCompare.charAt(i) == solution.charAt(i)) {
               document.getElementById(currentID).style.backgroundColor = "green";
@@ -86,15 +109,38 @@
           }
         }
         //Check winning condition
+        //if 5 letters in a row are correct, the winCondition var goes up to 5
+        //if it isn't 5, it gets reset to 0 for the next row
         if (winCondition == 5) {
-          document.getElementById("inp").value = "You Won!";
+          notif.style.color ="green";
+          notif.innerHTML = "You Won!";
           document.getElementById("btn").disabled = true;
-        }else if (currentID == 25) {
-          document.getElementById("inp").value = "You Lost!";
+        //check if the last row is reached
+        }else if (currentID > 26) {
+          notif.style.color ="red";
+          notif.innerHTML = "You Lost!";
           document.getElementById("btn").disabled = true;
         }else{
           winCondition = 0;
         }
+      }
+      //function has to be async to be able to use the await keyword
+      //checks if the word does exists with an API
+      //changes the validWord value depending on if the current word does exist or not
+      async function checkWord(word){
+        var link = "https://api.dictionaryapi.dev/api/v2/entries/en/" + word;
+        //https://www.youtube.com/watch?v=cuEtnrL9-H0 FETCH API EXPLAINED
+        //the fetch has to be finished before the code continues
+        await fetch(link)
+          .then(res => {
+            if (res.ok) {
+              //console.log("Success");
+              validWord = true;
+            } else{
+                //console.log("Not Sucessful");
+                validWord = false;;
+              }
+          })
       }
 
     </script>
@@ -107,7 +153,7 @@
       height:80px;
       color:white;
       border:2px white solid;
-      font-size:80px;
+      font-size:70px;
     }
     h1{
       color:white;

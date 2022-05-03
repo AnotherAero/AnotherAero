@@ -61,10 +61,23 @@
     <script type="text/javascript">
       //var id = 1;
       //document.getElementById(id).style.backgroundColor="red";
-      var solution = "COAST"; //MUST BE UPPERCASE!!!!
+      var solution = "EAGLE"; //MUST BE UPPERCASE!!!!
       var validWord = true;
       var currentID = 1;
       var winCondition = 0;
+      var enterBTNValid = true;
+      var share = [[],[]]; //For sharing the result; TO BE IMPLEMENTED
+      var enteredWords = []; //Checks if word has already been entered
+
+
+      //Using the enter key to enter the word
+      document.getElementById("inp").addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+          if (enterBTNValid) {
+            getWord();
+          }
+        }
+      });
 
       async function getWord() {
         //Word is changed to all upper case
@@ -80,8 +93,10 @@
         if (validWord) {
           notif.style.color ="white";
           notif.innerHTML = "-";
-          compareWord(input);
-          console.log(input);
+          if (alreadyEntered(input)) {
+            compareWord(input);
+            console.log(input);
+          }
         }else {
           notif.style.color ="red";
           notif.innerHTML = "Word does not exist";
@@ -115,11 +130,13 @@
           notif.style.color ="green";
           notif.innerHTML = "You Won!";
           document.getElementById("btn").disabled = true;
+          enterBTNValid = false;
         //check if the last row is reached
         }else if (currentID > 26) {
           notif.style.color ="red";
-          notif.innerHTML = "You Lost!";
+          notif.innerHTML = "You Lost! The solution is: " + solution;
           document.getElementById("btn").disabled = true;
+          enterBTNValid = false;
         }else{
           winCondition = 0;
         }
@@ -127,6 +144,7 @@
       //function has to be async to be able to use the await keyword
       //checks if the word does exists with an API
       //changes the validWord value depending on if the current word does exist or not
+      //https://dictionaryapi.dev/
       async function checkWord(word){
         var link = "https://api.dictionaryapi.dev/api/v2/entries/en/" + word;
         //https://www.youtube.com/watch?v=cuEtnrL9-H0 FETCH API EXPLAINED
@@ -141,6 +159,30 @@
                 validWord = false;;
               }
           })
+      }
+      //Checks if the word has already been entered;
+      function alreadyEntered(word){
+        if (enteredWords.includes(word.toUpperCase())) { //Word has already been used
+          notif.style.color ="red";
+          notif.innerHTML = "Word has already been used";
+          return false;
+        }else { //New word
+          enteredWords.push(word.toUpperCase());
+          return true;
+        }
+      }
+
+      //TO BE IMPLEMENTED
+      function writeShare(){
+        for (var i = ID - 5; i <= ID; i++ ) {
+
+        }
+      }
+
+      function share(){
+        for (var i = 0; i < array.length; i++) {
+          array[i]
+        }
       }
 
     </script>

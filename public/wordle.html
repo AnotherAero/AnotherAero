@@ -55,6 +55,7 @@
       <br>
       <input id="inp" type="text" name="" value="">
       <button id="btn" type="button" name="button" onclick="getWord()">Enter</button>
+      <button id="shr" type"button" name="shr" onclick="ClipboardShare()">Share</button>
     </div>
 
 
@@ -66,9 +67,9 @@
       var currentID = 1;
       var winCondition = 0;
       var enterBTNValid = true;
-      var share = [[],[]]; //For sharing the result; TO BE IMPLEMENTED
-      var enteredWords = []; //Checks if word has already been entered
 
+      //Disables the share button
+      document.getElementById("shr").disabled = true;
 
       //Using the enter key to enter the word
       document.getElementById("inp").addEventListener("keydown", function(event) {
@@ -83,6 +84,7 @@
         //Word is changed to all upper case
         var input = document.getElementById("inp").value.toUpperCase();
 
+        //Clears the inp after entering a word
         document.getElementById("inp").value = "";
 
         if (input.length != 5) { //Check if word is the right length
@@ -97,7 +99,6 @@
           notif.innerHTML = "-";
           if (alreadyEntered(input)) {
             compareWord(input);
-            console.log(input);
           }
         }else {
           notif.style.color ="red";
@@ -120,11 +121,13 @@
             document.getElementById(currentID).innerHTML = toCompare.charAt(i);
             currentID++;
           }else {
-            //document.getElementById(currentID).style.backgroundColor = "red";
+            document.getElementById(currentID).style.backgroundColor = "black";
             document.getElementById(currentID).innerHTML = toCompare.charAt(i);
             currentID++;
           }
         }
+        writeShare();
+
         //Check winning condition
         //if 5 letters in a row are correct, the winCondition var goes up to 5
         //if it isn't 5, it gets reset to 0 for the next row
@@ -132,12 +135,14 @@
           notif.style.color ="green";
           notif.innerHTML = "You Won!";
           document.getElementById("btn").disabled = true;
+          document.getElementById("shr").disabled = false;
           enterBTNValid = false;
         //check if the last row is reached
         }else if (currentID > 26) {
           notif.style.color ="red";
           notif.innerHTML = "You Lost! The solution is: " + solution;
           document.getElementById("btn").disabled = true;
+          document.getElementById("shr").disabled = false;
           enterBTNValid = false;
         }else{
           winCondition = 0;
@@ -162,6 +167,8 @@
               }
           })
       }
+
+      var enteredWords = []; //Checks if word has already been entered
       //Checks if the word has already been entered;
       function alreadyEntered(word){
         if (enteredWords.includes(word.toUpperCase())) { //Word has already been used
@@ -174,17 +181,45 @@
         }
       }
 
-      //TO BE IMPLEMENTED
+      var row = 0;
+      var share = [[],[],[],[],[],[]]; //For sharing the result;
       function writeShare(){
-        for (var i = ID - 5; i <= ID; i++ ) {
-
+        var x = 0;
+        for (var i = currentID - 5; i <= currentID && currentID <= 30; i++) {
+          share[row][x++] = document.getElementById(i).style.backgroundColor;
+        }
+        row++;
+        if (currentID == 31) {
+          var y = 0;
+          var ident = 26;
+          for (var i = 0; i <= 4; i++) {
+            share[5][y++] = document.getElementById(ident++).style.backgroundColor;
+          }
         }
       }
 
-      function share(){
-        for (var i = 0; i < array.length; i++) {
-          array[i]
+      function ClipboardShare(){
+        notif.style.color ="blue";
+        notif.innerHTML = "Guesses copied to clipboard";
+        var out = "Aero's Wordle" + "\n" + "\n";
+        var n = 1;
+        for (var x = 0; x < 6; x++) {
+          for (var y = 0; y < 5; y++) {
+            if (share[x][y] == "green") {
+              out = out + ":green_square:";
+            }else if (share[x][y] == "black") {
+              out = out + ":white_large_square:";
+            }else if (share[x][y] == "orange"){
+              out = out + ":orange_square:";
+            }else {
+              out = out + ":heavy_multiplication_x:";
+            }
+            if (n++ % 5 == 0) {
+              out = out + "\n";
+            }
+          }
         }
+        navigator.clipboard.writeText(out)
       }
 
     </script>

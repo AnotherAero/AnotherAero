@@ -61,7 +61,7 @@
     <script type="text/javascript">
       //var id = 1;
       //document.getElementById(id).style.backgroundColor="red";
-      var solution = "EAGLE"; //MUST BE UPPERCASE!!!!
+      var solution = "BOARD"; //MUST BE UPPERCASE!!!!
       var validWord = true;
       var currentID = 1;
       var winCondition = 0;
@@ -82,6 +82,8 @@
       async function getWord() {
         //Word is changed to all upper case
         var input = document.getElementById("inp").value.toUpperCase();
+
+        document.getElementById("inp").value = "";
 
         if (input.length != 5) { //Check if word is the right length
           notif.style.color ="red";

@@ -1,55 +1,114 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Memory</title>
-  </head>
-  <body>
-    <div align="center">
-      <h1>Memory game by Aero</h1>
-      <h5>Click any card to begin</h5>
-      <table id="tbl">
-        <tr>
-          <td id="1">1</td>
-          <td id="2">2</td>
-          <td id="3">3</td>
-          <td id="4">4</td>
-        </tr>
-        <tr>
-          <td id="5">5</td>
-          <td id="6">6</td>
-          <td id="7">7</td>
-          <td id="8">8</td>
-        </tr>
-      </table>
-    </div>
+<head>
+  <meta charset="utf-8">
+  <title>Memory</title>
+</head>
+<body>
+  <div align="center">
+    <h1>Memory game by Aero</h1>
+    <h5 id="notif">Click any card to begin</h5>
+    <table id="tbl">
+      <tr>
+        <td id="0" onclick="clicked(this.id)"></td>
+        <td id="1" onclick="clicked(this.id)"></td>
+        <td id="2" onclick="clicked(this.id)"></td>
+        <td id="3" onclick="clicked(this.id)"></td>
+      </tr>
+      <tr>
+        <td id="4" onclick="clicked(this.id)"></td>
+        <td id="5" onclick="clicked(this.id)"></td>
+        <td id="6" onclick="clicked(this.id)"></td>
+        <td id="7" onclick="clicked(this.id)"></td>
+      </tr>
+    </table>
+    <br>
+    <button id="btn" type="button" name="reset" onclick="newGame()">New Game</button>
+  </div>
 
-    <script type="text/javascript">
-      function highlightOn(){
-        this.style.backgroundColor ="red";
-        console.log("On");
+  <script type="text/javascript">
+  var lastID = -1;
+  var clicks = 0;
+  var winningCond = 0;
+  var colorArray = ["0","0","0","0","0","0","0","0"];
+  document.getElementById("btn").disabled = true;
+  startGame();
+
+  //Generates an array with random placements of the colors
+  function startGame(){
+    var color = 0;
+    var num = Math.floor(Math.random() * 9);
+    while (colorArray.includes("0")) {
+      if (colorArray[num] == "0") {
+        if (color < 2 ) {
+          colorArray[num] = "red";
+        }else if (color < 4 ) {
+          colorArray[num] = "blue";
+        }else if (color < 6 ) {
+          colorArray[num] = "green";
+        }else if (color < 8 ) {
+          colorArray[num] = "yellow";
+        }
+        color++;
       }
-      function highlightOff(){
-        console.log("Off");
+      var num = Math.floor(Math.random() * 9);
+    }
+  }
+
+  //Colors the tiles after a click accordingly and checks winningCond
+  function clicked(clicked_id){
+    clicks++;
+    document.getElementById(clicked_id).style.backgroundColor=colorArray[clicked_id];
+    if (lastID != -1) {
+      if (colorArray[clicked_id] == colorArray[lastID]) {
+        document.getElementById(clicked_id).style.backgroundColor=colorArray[clicked_id];
+        document.getElementById(lastID).style.backgroundColor=colorArray[lastID];
+        document.getElementById(clicked_id).onclick = null;
+        document.getElementById(lastID).onclick = null;
+        lastID = -1;
+        if (++winningCond == 4) {
+          document.getElementById("notif").innerHTML = "You won with " + clicks + " clicks";
+          document.getElementById("btn").disabled = false;;
+        }
+        return;
       }
-    </script>
-  </body>
-  <style media="screen">
-    body{
-      background:#ADD8E6;
+      else {
+          document.getElementById(lastID).style.backgroundColor="#72c6ed";
+      }
     }
-    td{
-      text-align:center;
-      table-layout:fixed;
-      width:80px;
-      height:120px;
-      color:white;
-      background-color:#72c6ed;
-      border:2px black solid;
-      font-size:70px;
+    lastID = clicked_id;
+  }
+
+  //Resets the game;
+  function newGame(){
+    winningCond = 0;
+    clicks = 0;
+    document.getElementById("btn").disabled = true;
+    document.getElementById("notif").innerHTML = "Click any card to begin";
+    startGame();
+    for (var i = 0; i <= 7; i++) {
+      document.getElementById(i).onclick = function() {clicked(this.id)};
+      document.getElementById(i).style.backgroundColor = "#72c6ed";
     }
-    td:hover {
-      background-color:#89cff0;
-    }
+  }
+  </script>
+</body>
+<style media="screen">
+body{
+  background:#ADD8E6;
+}
+td{
+  text-align:center;
+  table-layout:fixed;
+  width:80px;
+  height:120px;
+  color:white;
+  background-color:#72c6ed;
+  border:2px black solid;
+  font-size:70px;
+}
+td:hover {
+  background-color:#89cff0;
+  }
   </style>
-</html>
+  </html>

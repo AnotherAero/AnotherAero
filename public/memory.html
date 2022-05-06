@@ -38,6 +38,7 @@
   function startGame(){
     var color = 0;
     var num = Math.floor(Math.random() * 9);
+    colorArray = ["0","0","0","0","0","0","0","0"];
     while (colorArray.includes("0")) {
       if (colorArray[num] == "0") {
         if (color < 2 ) {

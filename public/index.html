@@ -3,16 +3,57 @@
 <head>
   <meta charset="utf-8">
   <title>Overview</title>
+  <style media="screen">
+    h1{
+      background-color:lightgrey;
+      text-align: center;
+    }
+    a{
+      padding: 15px;
+      text-decoration: none;
+      color:black;
+    }
+    .master{
+      margin:auto;
+    }
+    .elements{
+      align-self: center;
+      text-align:center;
+      padding: 15px;
+      margin: auto;
+      margin-bottom: 10px;
+      max-width: 10%;
+      border:5px solid black;
+    }
+    @media screen and (max-width: 1100px) {
+      .elements{
+        max-width:30%;
+      }
+    }
+    .elements:hover{
+      background-color:grey;
+    }
+  </style>
 </head>
 
 <body>
-  <div align="center">
-    <h1>Small projects by Aero</h1>
-    <a href="tictactoe.html"> Tic Tac Toe </a> <br>
-    <a href="zdcountdown.html"> ZD Countdown </a> <br>
-    <a href="stopwatch.html"> Stopwatch </a> <br>
-    <a href="wordle.html"> Wordle </a> <br>
-    <a href="memory.html"> Memory </a>
+  <h1>Small projects by Philipp C</h1>
+  <div class="master">
+    <div class="elements">
+      <a href="tictactoe.html"> Tic Tac Toe </a> <br>
+    </div>
+    <div class="elements">
+      <a href="zdcountdown.html"> ZD Countdown </a> <br>
+    </div>
+    <div class="elements">
+      <a href="stopwatch.html"> Stopwatch </a> <br>
+    </div>
+    <div class="elements">
+          <a href="wordle.html"> Wordle </a> <br>
+    </div>
+    <div class="elements">
+          <a href="memory.html"> Memory </a>
+    </div>
   </div>
 </body>
 

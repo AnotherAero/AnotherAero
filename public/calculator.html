@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Calculator</title>
+    <style media="screen">
+      body{
+        background-color:lightgreen;
+      }
+      h1{
+        text-align:center;
+      }
+      .interface{
+        text-align:center;
+        font-size:50px;
+      }
+      input{
+        font-size:18pt;
+        height:50px;
+        width:120px;
+        margin:20px;
+      }
+      button{
+        font-size:18pt;
+        width:50px;
+        height:50px;
+      }
+      [v-cloak]{
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="interface" class="interface" v-cloak>
+      <h1>Calulator</h1>
+      <input v-model="var1">
+      <button type="button" name="button" v-on:click="changeOP()">{{op}}</button>
+      <input v-model="var2">
+      <br>
+      <a>=</a>
+      {{result}}
+    </div>
+
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+      let app = Vue.createApp(
+      {
+        data:function(){
+          return{
+            var1: 0,
+            var2: 0,
+            op: "+",
+          }
+        },
+        methods:{
+          changeOP(){
+            console.log("Pressed");
+            if (this.op == "+") {
+              this.op = "-";
+            }else {
+              this.op = "+"
+            }
+          }
+        },
+        computed:{
+          result(){
+            if (this.op == "+") {
+              return parseInt(this.var1) + parseInt(this.var2)
+            }else {
+              return parseInt(this.var1) - parseInt(this.var2)
+            }
+          }
+        }
+      });
+      app.mount('#interface')
+    </script>
+  </body>
+</html>

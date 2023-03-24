@@ -1,9 +1,51 @@
 <html>
-<head> <title> Aero </title> <head>
+
+<head>
+  <meta charset="utf-8">
+  <style media="screen">
+    h1{
+      background-color:lightgrey;
+      text-align: center;
+    }
+    a{
+      padding: 15px;
+      text-decoration: none;
+      color:black;
+    }
+    .master{
+      margin:auto;
+    }
+    .elements{
+      align-self: center;
+      text-align:center;
+      padding: 15px;
+      margin: auto;
+      margin-bottom: 10px;
+      max-width: 10%;
+      border:5px solid black;
+    }
+    @media screen and (max-width: 1100px) {
+      .elements{
+        max-width:30%;
+      }
+    }
+    .elements:hover{
+      background-color:grey;
+    }
+  </style>
+</head>
+
 <body>
-<center>
-  <h1> Philipp's Github Page </h1>
-  <img src="https://nerdbot.com/wp-content/uploads/2020/01/1r3fn3-e1579990017466-1200x761.jpg">
-</center>
+  <h1>Webprojects made by Philipp C</h1>
+  <div class="master">
+    <div class="elements">
+      <a href="personal/index.html"> Personal Projects </a> <br>
+    </div>
+    <div class="elements">
+      <a href="technikum/index.html"> Technikum Projects </a> <br>
+    </div>
+
+  </div>
 </body>
+
 </html>

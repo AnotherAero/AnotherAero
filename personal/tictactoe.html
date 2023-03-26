@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Tic Tac Toe</title>
+</head>
+
+<body>
+	<div align="center">
+	<h1> Tic Tac Toe </h1> <br>
+	<button id="1" onclick="change(1)">-</button>
+	<button id="2" onclick="change(2)">-</button>
+	<button id="3" onclick="change(3)">-</button> 
+	<br>
+	<button id="4" onclick="change(4)">-</button>
+	<button id="5" onclick="change(5)">-</button>
+	<button id="6" onclick="change(6)">-</button> 
+	<br>
+	<button id="7" onclick="change(7)">-</button>
+	<button id="8" onclick="change(8)">-</button>
+	<button id="9" onclick="change(9)">-</button>
+	<br>
+	<button id="reset" onclick="reset()">New</button>
+	</div>
+
+	<script type="text/javascript">
+		var x = 1;
+		function change(ID){
+			if(document.getElementById(ID).innerHTML == "-"){
+				if (x%2 == 0) {
+					document.getElementById(ID).innerHTML = "X";
+				}else{
+					document.getElementById(ID).innerHTML = "O";
+				}
+				x++;
+			}
+			console.log("Clicked")
+		}
+		function reset() {
+			for (var i = 1 ; i <= 9; i++) {
+				document.getElementById(i).innerHTML = "-";
+			}
+			console.log("Game reset")
+		}
+	</script>
+</body>
+
+<style type="text/css">
+	button {
+		height:200px;
+    	width:200px;
+    	font-size: 80px;
+	}
+</style>
+
+</html>

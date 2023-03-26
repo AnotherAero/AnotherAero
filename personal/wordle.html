@@ -1,26 +1,65 @@
-@@ -2,11 +2,11 @@
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Low Budget Wordle</title>
     <title>Wordle by Aero</title>
   </head>
   <body>
     <div class="" align="center">
-      <h1>Low Budget Wordle</h1>
       <h1>Wordle by Aero</h1>
       <h5 id="notif">A letter only appears once in the word</h5>
       <table>
         <tr>
-@@ -60,15 +60,13 @@ <h5 id="notif">A letter only appears once in the word</h5>
+          <td id="1"></td>
+          <td id="2"></td>
+          <td id="3"></td>
+          <td id="4"></td>
+          <td id="5"></td>
+        </tr>
+        <tr>
+          <td id="6"></td>
+          <td id="7"></td>
+          <td id="8"></td>
+          <td id="9"></td>
+          <td id="10"></td>
+        </tr>
+        <tr>
+          <td id="11"></td>
+          <td id="12"></td>
+          <td id="13"></td>
+          <td id="14"></td>
+          <td id="15"></td>
+        </tr>
+        <tr>
+          <td id="16"></td>
+          <td id="17"></td>
+          <td id="18"></td>
+          <td id="19"></td>
+          <td id="20"></td>
+        </tr>
+        <tr>
+          <td id="21"></td>
+          <td id="22"></td>
+          <td id="23"></td>
+          <td id="24"></td>
+          <td id="25"></td>
+        </tr>
+        <tr>
+          <td id="26"></td>
+          <td id="27"></td>
+          <td id="28"></td>
+          <td id="29"></td>
+          <td id="30"></td>
+        </tr>
+      </table>
+      <br>
+      <input id="inp" type="text" name="" value="">
+      <button id="btn" type="button" name="button" onclick="getWord()">Enter</button>
+      <button id="shr" type"button" name="shr" onclick="ClipboardShare()">Share</button>
+    </div>
 
 
     <script type="text/javascript">
-      //var id = 1;
-      //document.getElementById(id).style.backgroundColor="red";
-      var solution = "BOARD"; //MUST BE UPPERCASE!!!!
-      var validWord = true;
-      var currentID = 1;
       var solution = "TWICE"; //MUST BE UPPERCASE!!!!
 
       var validWord = true; //for checkWord function
@@ -28,51 +67,59 @@
       var winCondition = 0;
       var enterBTNValid = true;
 
-      //Disables the share button
       document.getElementById("shr").disabled = true;
 
       //Using the enter key to enter the word
-@@ -81,19 +79,15 @@ <h5 id="notif">A letter only appears once in the word</h5>
+      document.getElementById("inp").addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+          if (enterBTNValid) {
+            getWord();
+          }
+        }
       });
 
       async function getWord() {
-        //Word is changed to all upper case
         var input = document.getElementById("inp").value.toUpperCase();
-
-        //Clears the inp after entering a word
         document.getElementById("inp").value = "";
 
-        if (input.length != 5) { //Check if word is the right length
         if (input.length != 5) {
           notif.style.color ="red";
           notif.innerHTML = "Word does not have a length of 5";
           return;
         }
         await checkWord(input) //Check if word is valid and awaits till the check is done using await
-        //checks the validWord variable and
         if (validWord) {
           notif.style.color ="white";
           notif.innerHTML = "-";
-@@ -106,10 +100,7 @@ <h5 id="notif">A letter only appears once in the word</h5>
+          if (alreadyEntered(input)) {
+            compareWord(input);
+          }
+        }else {
+          notif.style.color ="red";
+          notif.innerHTML = "Word does not exist";
         }
       }
       function compareWord(toCompare){
-        //console.log(currentID);
-        //compares the entered word with the solution
-        //and colors the tiltes accordingly
-        //currentID is used to determin which tile is currently used
         //and colors the tiles accordingly
         for (var i = 0; i < 5; i++) {
           if (toCompare.charAt(i) == solution.charAt(i)) {
               document.getElementById(currentID).style.backgroundColor = "green";
-@@ -127,17 +118,15 @@ <h5 id="notif">A letter only appears once in the word</h5>
+              document.getElementById(currentID).innerHTML = toCompare.charAt(i);
+              winCondition++;
+              currentID++;
+          }else if (solution.search(toCompare.charAt(i)) != -1) {
+            document.getElementById(currentID).style.backgroundColor = "orange";
+            document.getElementById(currentID).innerHTML = toCompare.charAt(i);
+            currentID++;
+          }else {
+            document.getElementById(currentID).style.backgroundColor = "black";
+            document.getElementById(currentID).innerHTML = toCompare.charAt(i);
+            currentID++;
           }
         }
         writeShare();
-
         //Check winning condition
         //if 5 letters in a row are correct, the winCondition var goes up to 5
-        //if it isn't 5, it gets reset to 0 for the next row
         //if it isn't 5, it reset to 0 for the next row
         if (winCondition == 5) {
           notif.style.color ="green";
@@ -80,11 +127,13 @@
           document.getElementById("btn").disabled = true;
           document.getElementById("shr").disabled = false;
           enterBTNValid = false;
-        //check if the last row is reached
         }else if (currentID > 26) {
           notif.style.color ="red";
           notif.innerHTML = "You Lost! The solution is: " + solution;
-@@ -148,6 +137,7 @@ <h5 id="notif">A letter only appears once in the word</h5>
+          document.getElementById("btn").disabled = true;
+          document.getElementById("shr").disabled = false;
+          enterBTNValid = false;
+        }else{
           winCondition = 0;
         }
       }
@@ -92,29 +141,28 @@
       //function has to be async to be able to use the await keyword
       //checks if the word does exists with an API
       //changes the validWord value depending on if the current word does exist or not
-@@ -159,30 +149,29 @@ <h5 id="notif">A letter only appears once in the word</h5>
+      //https://dictionaryapi.dev/
+      async function checkWord(word){
+        var link = "https://api.dictionaryapi.dev/api/v2/entries/en/" + word;
+        //https://www.youtube.com/watch?v=cuEtnrL9-H0 FETCH API EXPLAINED
+        //the fetch has to be finished before the code continues
         await fetch(link)
           .then(res => {
             if (res.ok) {
-              //console.log("Success");
               validWord = true;
             } else{
-                //console.log("Not Sucessful");
                 validWord = false;;
               }
           })
       }
 
-      var enteredWords = []; //Checks if word has already been entered
       //Checks if the word has already been entered;
       var enteredWords = [];
       function alreadyEntered(word){
-        if (enteredWords.includes(word.toUpperCase())) { //Word has already been used
         if (enteredWords.includes(word.toUpperCase())) {
           notif.style.color ="red";
           notif.innerHTML = "Word has already been used";
           return false;
-        }else { //New word
         }else {
           enteredWords.push(word.toUpperCase());
           return true;
@@ -123,12 +171,19 @@
 
       //Generates an Array for sharing the result;
       var row = 0;
-      var share = [[],[],[],[],[],[]]; //For sharing the result;
       var share = [[],[],[],[],[],[]];
       function writeShare(){
         var x = 0;
         for (var i = currentID - 5; i <= currentID && currentID <= 30; i++) {
-@@ -198,6 +187,7 @@ <h5 id="notif">A letter only appears once in the word</h5>
+          share[row][x++] = document.getElementById(i).style.backgroundColor;
+        }
+        row++;
+        if (currentID == 31) {
+          var y = 0;
+          var ident = 26;
+          for (var i = 0; i <= 4; i++) {
+            share[5][y++] = document.getElementById(ident++).style.backgroundColor;
+          }
         }
       }
 
@@ -136,11 +191,46 @@
       function ClipboardShare(){
         notif.style.color ="blue";
         notif.innerHTML = "Guesses copied to clipboard";
-@@ -221,7 +211,6 @@ <h5 id="notif">A letter only appears once in the word</h5>
+        var out = "Aero's Wordle" + "\n" + "\n";
+        var n = 1;
+        for (var x = 0; x < 6; x++) {
+          for (var y = 0; y < 5; y++) {
+            if (share[x][y] == "green") {
+              out = out + ":green_square:";
+            }else if (share[x][y] == "black") {
+              out = out + ":white_large_square:";
+            }else if (share[x][y] == "orange"){
+              out = out + ":orange_square:";
+            }else {
+              out = out + ":heavy_multiplication_x:";
+            }
+            if (n++ % 5 == 0) {
+              out = out + "\n";
+            }
+          }
         }
         navigator.clipboard.writeText(out)
       }
-
     </script>
   </body>
   <style media="screen">
+    td{
+      text-align:center;
+      table-layout:fixed;
+      width:80px;
+      height:80px;
+      color:white;
+      border:2px white solid;
+      font-size:70px;
+    }
+    h1{
+      color:white;
+    }
+    h5{
+      color:white;
+    }
+    body{
+      background:black;
+    }
+  </style>
+</html>
